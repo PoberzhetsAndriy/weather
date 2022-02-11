@@ -42,7 +42,7 @@ class _WeekWeatherState extends State<WeekWeather> {
               height: 40,
               decoration: const BoxDecoration(
                   border: Border(
-                      bottom: BorderSide(width: 2, color: Color(0x40E1EDFC)))),
+                      bottom: BorderSide(width: 2, color: Color(0xFFF7F8F9)))),
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 25),
                 child: Row(
