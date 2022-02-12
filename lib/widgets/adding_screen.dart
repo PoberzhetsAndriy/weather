@@ -6,7 +6,6 @@ import 'dart:convert';
 Future<List<dynamic>> fetchTownsList(String query) async {
   final response = await http.get(Uri.parse(
       'https://www.metaweather.com/api/location/search/?query=$query'));
-
   if (response.statusCode == 200) {
     return jsonDecode(response.body);
   } else {
@@ -22,12 +21,18 @@ class AddingScreen extends StatefulWidget {
 }
 
 class _AddingScreenState extends State<AddingScreen> {
-  late Future<List<dynamic>> townsList;
-
-  @override
-  void initState() {
-    super.initState();
-    townsList = fetchTownsList('san');
+  final townController = TextEditingController();
+  String query = 'empty';
+  late Future<List<dynamic>> townsList = fetchTownsList(query);
+  void submitData() {
+    var enteredTown = townController.text;
+    if (enteredTown.isEmpty) {
+      enteredTown = 'empty';
+    }
+    setState(() {
+      query = enteredTown;
+      townsList = fetchTownsList(query);
+    });
   }
 
   @override
@@ -44,10 +49,14 @@ class _AddingScreenState extends State<AddingScreen> {
         title: Container(
           alignment: Alignment.centerLeft,
           color: Colors.white,
-          child: const TextField(
+          child: TextField(
             autofocus: true,
-            decoration: InputDecoration(
-                border: InputBorder.none, hintText: 'Enter town name'),
+            controller: townController,
+            onChanged: (_) => submitData(),
+            decoration: const InputDecoration(
+              border: InputBorder.none,
+              hintText: 'Enter town name',
+            ),
           ),
         ),
       ),
@@ -55,7 +64,9 @@ class _AddingScreenState extends State<AddingScreen> {
         child: FutureBuilder<List<dynamic>>(
           future: townsList,
           builder: (context, snapshot) {
-            if (snapshot.hasData) {
+            if (query == 'empty') {
+              return const SizedBox();
+            } else if (snapshot.hasData) {
               return SingleChildScrollView(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -79,7 +90,7 @@ class _AddingScreenState extends State<AddingScreen> {
             } else if (snapshot.hasError) {
               return Text('${snapshot.error}');
             }
-            return const CircularProgressIndicator();
+            return const Center(child: CircularProgressIndicator());
           },
         ),
       ),
