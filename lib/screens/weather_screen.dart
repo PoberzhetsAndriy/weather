@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:weather/widgets/saved_screen.dart';
-import 'package:weather/widgets/settings_screen.dart';
+import 'package:weather/screens/saved_screen.dart';
+import 'package:weather/screens/settings_screen.dart';
 import 'package:weather/widgets/today_weather.dart';
 import 'package:weather/widgets/week_weather.dart';
 

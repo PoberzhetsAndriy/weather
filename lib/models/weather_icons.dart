@@ -26,11 +26,11 @@ class WeatherIcons {
       IconData(0xe800, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData hail =
       IconData(0xe801, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData heavyClouds =
+  static const IconData heavyCloud =
       IconData(0xe802, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData heavyRain =
       IconData(0xe803, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData lightClouds =
+  static const IconData lightCloud =
       IconData(0xe804, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData lightRain =
       IconData(0xe805, fontFamily: _kFontFam, fontPackage: _kFontPkg);

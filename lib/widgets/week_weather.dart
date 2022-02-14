@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:weather/widgets/short_weather.dart';
 import 'package:weather/widgets/weather_icon.dart';
 
 class WeekWeather extends StatefulWidget {
@@ -66,28 +67,10 @@ class _WeekWeatherState extends State<WeekWeather> {
                             )),
                       ],
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Container(
-                            width: 40,
-                            alignment: Alignment.center,
-                            child: WeatherIcon(day['Sky'] as String)),
-                        Container(
-                          width: 30,
-                          alignment: Alignment.center,
-                          child: Text(
-                            '${day['Max'].toString()}°',
-                          ),
-                        ),
-                        Container(
-                          width: 30,
-                          alignment: Alignment.center,
-                          child: Text(
-                            '${day['Min'].toString()}°',
-                          ),
-                        )
-                      ],
+                    const ShortWeather(
+                      weatherState: 'Light Cloud',
+                      minTemp: -1,
+                      maxTemp: 1,
                     ),
                   ],
                 ),

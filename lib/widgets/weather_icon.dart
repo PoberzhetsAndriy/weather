@@ -7,9 +7,9 @@ class WeatherIcon extends StatelessWidget {
   static const Map icons ={
       'Clear': WeatherIcons.clear,
       'Hail': WeatherIcons.hail,
-      'Heavy Clouds': WeatherIcons.heavyClouds,
+      'Heavy Cloud': WeatherIcons.heavyCloud,
       'Heavy Rain': WeatherIcons.heavyRain,
-      'Light Clouds': WeatherIcons.lightClouds,
+      'Light Cloud': WeatherIcons.lightCloud,
       'Light Rain': WeatherIcons.lightRain,
       'Showers': WeatherIcons.showers,
       'Snow': WeatherIcons.snow,
