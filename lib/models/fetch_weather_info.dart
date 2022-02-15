@@ -22,6 +22,8 @@ class WeatherInfo {
   final num humidity;
   final num minTemp;
   final num maxTemp;
+  final num airPressure;
+  final num visibility;
 
   const WeatherInfo({
     required this.woeid,
@@ -32,19 +34,23 @@ class WeatherInfo {
     required this.humidity,
     required this.minTemp,
     required this.maxTemp,
+    required this.airPressure,
+    required this.visibility,
   });
 
   factory WeatherInfo.fromJson(Map<String, dynamic> json, int day) {
     return WeatherInfo(
-      weatherStateName: json["consolidated_weather"][day]['weather_state_name'],
-      windDirectionCompass: json["consolidated_weather"][day]
-          ['wind_direction_compass'],
-      windSpeed: json["consolidated_weather"][day]['wind_speed'],
-      humidity: json["consolidated_weather"][day]['humidity'],
-      minTemp: json["consolidated_weather"][day]['min_temp'],
-      maxTemp: json["consolidated_weather"][day]['max_temp'],
-      title: json["title"],
-      woeid: json["woeid"]
-    );
+        weatherStateName: json["consolidated_weather"][day]
+            ['weather_state_name'],
+        windDirectionCompass: json["consolidated_weather"][day]
+            ['wind_direction_compass'],
+        windSpeed: json["consolidated_weather"][day]['wind_speed'],
+        humidity: json["consolidated_weather"][day]['humidity'],
+        minTemp: json["consolidated_weather"][day]['min_temp'],
+        maxTemp: json["consolidated_weather"][day]['max_temp'],
+        airPressure: json["consolidated_weather"][day]['air_pressure'],
+        visibility: json["consolidated_weather"][day]['visibility'],
+        title: json["title"],
+        woeid: json["woeid"]);
   }
 }

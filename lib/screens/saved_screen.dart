@@ -14,10 +14,13 @@ class SavedScreen extends StatefulWidget {
 class _SavedScreenState extends State<SavedScreen> {
   List<Future<WeatherInfo>> savedTownsWeather = [];
   List<int> savedTownsWoeids = [];
+  
   void addNewTownWoeid(int woeid) {
     setState(() {
-      if(savedTownsWoeids.contains(woeid) == false){savedTownsWoeids.add(woeid);
-      savedTownsWeather.add(fetchWeatherInfo(0, woeid));}
+      if (savedTownsWoeids.contains(woeid) == false) {
+        savedTownsWoeids.add(woeid);
+        savedTownsWeather.add(fetchWeatherInfo(0, woeid));
+      }
     });
   }
 
@@ -65,23 +68,28 @@ class _SavedScreenState extends State<SavedScreen> {
                 future: savedTownsWeather[index],
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
-                    return Container(
-                      height: 50,
-                      decoration: const BoxDecoration(
-                          border: Border(
-                              bottom: BorderSide(
-                                  width: 2, color: Color(0xFFF7F8F9)))),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 25),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(snapshot.data!.title),
-                            ShortWeather(
-                                weatherState: snapshot.data!.weatherStateName,
-                                minTemp: snapshot.data!.minTemp.toInt(),
-                                maxTemp: snapshot.data!.maxTemp.toInt()),
-                          ],
+                    return GestureDetector(
+                      onTap: () {
+                        
+                      },
+                      child: Container(
+                        height: 50,
+                        decoration: const BoxDecoration(
+                            border: Border(
+                                bottom: BorderSide(
+                                    width: 2, color: Color(0xFFF7F8F9)))),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 25),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(snapshot.data!.title),
+                              ShortWeather(
+                                  weatherState: snapshot.data!.weatherStateName,
+                                  minTemp: snapshot.data!.minTemp.toInt(),
+                                  maxTemp: snapshot.data!.maxTemp.toInt()),
+                            ],
+                          ),
                         ),
                       ),
                     );

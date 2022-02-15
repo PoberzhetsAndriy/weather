@@ -12,8 +12,8 @@ class InfoImage extends StatelessWidget {
     'S': 'assets/images/S.png',
     'NE': 'assets/images/NE.png',
     'NW': 'assets/images/NW.png',
-    'WS': 'assets/images/WS.png',
-    'ES': 'assets/images/ES.png',
+    'SW': 'assets/images/SW.png',
+    'SE': 'assets/images/SE.png',
   };
   const InfoImage(this.info, {Key? key}) : super(key: key);
 
