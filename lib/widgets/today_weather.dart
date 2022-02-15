@@ -14,17 +14,6 @@ class TodayWeather extends StatefulWidget {
 class _TodayWeatherState extends State<TodayWeather> {
   late int townWoeid ;
   late Future<WeatherInfo> todayWeatherInfo;
-  final todayInfo = {
-    'Sky': 'Hail',
-    'Max': 5,
-    'Min': 4,
-    'Wind': 10,
-    'Humidity': 0.56,
-    'Preasure': 1018,
-    'Visibility': 15.8,
-  };
-
- 
 
   @override
   void initState() {
