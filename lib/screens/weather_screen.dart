@@ -13,77 +13,85 @@ class WeatherScreen extends StatefulWidget {
 }
 
 class _WeatherScreenState extends State<WeatherScreen> {
+  DateTime today = DateTime.now();
+
   final town = 'Kyiv';
-  late int townWoeid;
+  int? townWoeid = 44418;
+
   List<Future<WeatherInfo>> weekWeatherInfo = [];
 
   @override
   void initState() {
-    const int townWoeid = 44418;
-    for (int i = 0; i < 6; i++) {
-      weekWeatherInfo.add(fetchWeatherInfo(i, townWoeid));
+    if (townWoeid != null) {
+      for (int i = 0; i < 6; i++) {
+        weekWeatherInfo.add(fetchWeatherInfo(i, townWoeid!));
+      }
     }
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      extendBodyBehindAppBar: true,
-      appBar: AppBar(
-        actions: [
-          IconButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const SettingsScreen()),
-                );
-              },
-              icon: const Icon(Icons.settings))
-        ],
-        leading: IconButton(
-          alignment: Alignment.centerLeft,
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const SavedScreen()),
-            );
-          },
-          icon: const Icon(Icons.menu),
+    if (townWoeid != null) {
+      return Scaffold(
+        backgroundColor: Colors.white,
+        extendBodyBehindAppBar: true,
+        appBar: AppBar(
+          actions: [
+            IconButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const SettingsScreen()),
+                  );
+                },
+                icon: const Icon(Icons.settings))
+          ],
+          leading: IconButton(
+            alignment: Alignment.centerLeft,
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const SavedScreen()),
+              );
+            },
+            icon: const Icon(Icons.menu),
+          ),
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          centerTitle: true,
+          title: Text(town,
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              )),
         ),
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        centerTitle: true,
-        title: Text(town,
-            style: const TextStyle(
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-            )),
-      ),
-      body: Container(
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-            alignment: AlignmentDirectional.topCenter,
-            fit: BoxFit.fitWidth,
-            image: AssetImage('assets/images/Light Sky Gradient.png'),
+        body: Container(
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              alignment: AlignmentDirectional.topCenter,
+              fit: BoxFit.fitWidth,
+              image: AssetImage('assets/images/Light Sky Gradient.png'),
+            ),
+          ),
+          width: double.infinity,
+          child: Padding(
+            padding: const EdgeInsets.only(
+              top: 20,
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                TodayWeather(weekWeatherInfo[0]),
+                WeekWeather(weekWeatherInfo),
+              ],
+            ),
           ),
         ),
-        width: double.infinity,
-        child: Padding(
-          padding: const EdgeInsets.only(
-            top: 20,
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              TodayWeather(weekWeatherInfo[0]),
-              WeekWeather(weekWeatherInfo),
-            ],
-          ),
-        ),
-      ),
-    );
+      );
+    } else {
+      return const SavedScreen();
+    }
   }
 }
