@@ -4,23 +4,9 @@ import 'package:weather/models/fetch_weather_info.dart';
 import 'package:weather/widgets/info_image.dart';
 import 'package:weather/widgets/weather_state.dart';
 
-class TodayWeather extends StatefulWidget {
-  TodayWeather({Key? key}) : super(key: key);
-
-  @override
-  State<TodayWeather> createState() => _TodayWeatherState();
-}
-
-class _TodayWeatherState extends State<TodayWeather> {
-  late int townWoeid ;
-  late Future<WeatherInfo> todayWeatherInfo;
-
-  @override
-  void initState() {
-    const int townWoeid = 44418;
-    todayWeatherInfo = fetchWeatherInfo(0, townWoeid);
-    super.initState();
-  }
+class TodayWeather extends StatelessWidget {
+  final Future<WeatherInfo> todayWeatherInfo;
+  const TodayWeather(this.todayWeatherInfo, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +21,7 @@ class _TodayWeatherState extends State<TodayWeather> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     SizedBox(
-                      width: 85,
+                      width: 110,
                       child: Column(children: [
                         const Text('Max', style: TextStyle(fontSize: 15)),
                         Text('${snapshot.data!.maxTemp.toInt()}°',
@@ -45,7 +31,7 @@ class _TodayWeatherState extends State<TodayWeather> {
                     ),
                     const SizedBox(width: 20),
                     SizedBox(
-                      width: 85,
+                      width: 110,
                       child: Column(children: [
                         const Text('Min', style: TextStyle(fontSize: 15)),
                         Text('${snapshot.data!.minTemp.toInt()}°',

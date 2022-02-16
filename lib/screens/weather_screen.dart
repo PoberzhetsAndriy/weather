@@ -1,12 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:weather/models/fetch_weather_info.dart';
 import 'package:weather/screens/saved_screen.dart';
 import 'package:weather/screens/settings_screen.dart';
 import 'package:weather/widgets/today_weather.dart';
 import 'package:weather/widgets/week_weather.dart';
 
-class WeatherScreen extends StatelessWidget {
-  final town = 'Kyiv';
+class WeatherScreen extends StatefulWidget {
   const WeatherScreen({Key? key}) : super(key: key);
+
+  @override
+  State<WeatherScreen> createState() => _WeatherScreenState();
+}
+
+class _WeatherScreenState extends State<WeatherScreen> {
+  final town = 'Kyiv';
+  late int townWoeid;
+  List<Future<WeatherInfo>> weekWeatherInfo = [];
+
+  @override
+  void initState() {
+    const int townWoeid = 44418;
+    for (int i = 0; i < 6; i++) {
+      weekWeatherInfo.add(fetchWeatherInfo(i, townWoeid));
+    }
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -60,8 +78,8 @@ class WeatherScreen extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              TodayWeather(),
-              const WeekWeather(),
+              TodayWeather(weekWeatherInfo[0]),
+              WeekWeather(weekWeatherInfo),
             ],
           ),
         ),

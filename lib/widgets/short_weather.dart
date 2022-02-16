@@ -23,14 +23,14 @@ class ShortWeather extends StatelessWidget {
           width: 30,
           alignment: Alignment.center,
           child: Text(
-            '${maxTemp.toString()}°',
+            '${maxTemp.toInt().toString()}°',
           ),
         ),
         Container(
           width: 30,
           alignment: Alignment.center,
           child: Text(
-            '${minTemp.toString()}°',
+            '${minTemp.toInt().toString()}°',
           ),
         )
       ],
