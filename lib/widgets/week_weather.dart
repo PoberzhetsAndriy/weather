@@ -6,8 +6,7 @@ import 'package:weather/widgets/weather_icon.dart';
 
 class WeekWeather extends StatelessWidget {
   final List<Future<WeatherInfo>> weekWeatherInfo;
-  WeekWeather( this.weekWeatherInfo, {Key? key})
-      : super(key: key);
+  WeekWeather(this.weekWeatherInfo, {Key? key}) : super(key: key);
   final today = DateTime.now();
 
   @override
@@ -38,16 +37,25 @@ class WeekWeather extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text(
-                                DateFormat('d MMMM').format(today.add(Duration(days: weekWeatherInfo.indexOf(dayWeatherInfo))))
-                                          .toString(),
-                                style: const TextStyle(
-                                    fontSize: 11, color: Color(0xFF6D6D73)),
+                                DateFormat('d MMMM')
+                                    .format(today.add(Duration(
+                                        days: weekWeatherInfo
+                                            .indexOf(dayWeatherInfo))))
+                                    .toString(),
+                                style: Theme.of(context).textTheme.bodyText1,
                               ),
                               Text(
-                                  today.day == today.add(Duration(days: weekWeatherInfo.indexOf(dayWeatherInfo))).day
+                                  today.day ==
+                                          today
+                                              .add(Duration(
+                                                  days: weekWeatherInfo
+                                                      .indexOf(dayWeatherInfo)))
+                                              .day
                                       ? 'Today'
                                       : DateFormat('EEEE')
-                                          .format(today.add(Duration(days: weekWeatherInfo.indexOf(dayWeatherInfo))))
+                                          .format(today.add(Duration(
+                                              days: weekWeatherInfo
+                                                  .indexOf(dayWeatherInfo))))
                                           .toString(),
                                   style: const TextStyle(
                                     fontWeight: FontWeight.w500,

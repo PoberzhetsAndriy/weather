@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:weather/models/fetch_weather_info.dart';
 import 'package:weather/screens/adding_screen.dart';
 import 'package:weather/widgets/short_weather.dart';
-import 'package:weather/widgets/weather_icon.dart';
 
 class SavedScreen extends StatefulWidget {
-  const SavedScreen({Key? key}) : super(key: key);
+  final Function setMainTown;
+  const SavedScreen(this.setMainTown, {Key? key}) : super(key: key);
 
   @override
   State<SavedScreen> createState() => _SavedScreenState();
@@ -14,7 +14,7 @@ class SavedScreen extends StatefulWidget {
 class _SavedScreenState extends State<SavedScreen> {
   List<Future<WeatherInfo>> savedTownsWeather = [];
   List<int> savedTownsWoeids = [];
-  
+
   void addNewTownWoeid(int woeid) {
     setState(() {
       if (savedTownsWoeids.contains(woeid) == false) {
@@ -34,12 +34,8 @@ class _SavedScreenState extends State<SavedScreen> {
 
   @override
   Widget build(BuildContext context) {
-    addTownsWeather(savedTownsWoeids);
     return Scaffold(
-      backgroundColor: Colors.white,
       appBar: AppBar(
-        shape: const Border(
-            bottom: BorderSide(color: Color(0xFFF7F8F9), width: 2)),
         actions: [
           IconButton(
               onPressed: () {
@@ -51,18 +47,15 @@ class _SavedScreenState extends State<SavedScreen> {
               },
               icon: const Icon(Icons.add))
         ],
-        elevation: 0,
-        backgroundColor: Colors.white,
-        centerTitle: true,
-        iconTheme: const IconThemeData(color: Color(0XFF00A3FF)),
         title: const Text(
           "Saved",
-          style: TextStyle(color: Colors.black),
+          
         ),
       ),
       body: ListView.builder(
           itemCount: savedTownsWeather.length,
           itemBuilder: (ctx, index) {
+            addTownsWeather(savedTownsWoeids);
             return SizedBox(
               child: FutureBuilder<WeatherInfo>(
                 future: savedTownsWeather[index],
@@ -70,7 +63,9 @@ class _SavedScreenState extends State<SavedScreen> {
                   if (snapshot.hasData) {
                     return GestureDetector(
                       onTap: () {
-                        
+                        widget.setMainTown(
+                            snapshot.data!.title, snapshot.data!.woeid);
+                        Navigator.pop(context);
                       },
                       child: Container(
                         height: 50,
