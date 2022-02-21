@@ -1,15 +1,27 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:weather/screens/weather_screen.dart';
 import 'package:flutter/services.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:hive/hive.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Hive.initFlutter();
+
+  
+
   runApp(const WeatherApp());
 }
 
-class WeatherApp extends StatelessWidget {
+class WeatherApp extends StatefulWidget {
   const WeatherApp({Key? key}) : super(key: key);
+
+  @override
+  State<WeatherApp> createState() => _WeatherAppState();
+}
+
+class _WeatherAppState extends State<WeatherApp> {
+  String theme = 'dark theme';
 
   @override
   Widget build(BuildContext context) {
@@ -19,6 +31,8 @@ class WeatherApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
+          hintColor: Colors.grey,
+          primaryColorDark: const Color(0xFFF7F8F9),
           appBarTheme: const AppBarTheme(
             titleTextStyle: TextStyle(
                 color: Colors.black, fontWeight: FontWeight.w500, fontSize: 18),

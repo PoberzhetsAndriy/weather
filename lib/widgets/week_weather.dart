@@ -21,53 +21,58 @@ class WeekWeather extends StatelessWidget {
               future: dayWeatherInfo,
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
-                  return Container(
-                    height: 40,
-                    decoration: const BoxDecoration(
-                        border: Border(
-                            bottom: BorderSide(
-                                width: 2, color: Color(0xFFF7F8F9)))),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 25),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                DateFormat('d MMMM')
-                                    .format(today.add(Duration(
-                                        days: weekWeatherInfo
-                                            .indexOf(dayWeatherInfo))))
-                                    .toString(),
-                                style: Theme.of(context).textTheme.bodyText1,
-                              ),
-                              Text(
-                                  today.day ==
-                                          today
-                                              .add(Duration(
-                                                  days: weekWeatherInfo
-                                                      .indexOf(dayWeatherInfo)))
-                                              .day
-                                      ? 'Today'
-                                      : DateFormat('EEEE')
-                                          .format(today.add(Duration(
-                                              days: weekWeatherInfo
-                                                  .indexOf(dayWeatherInfo))))
-                                          .toString(),
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.w500,
-                                  )),
-                            ],
-                          ),
-                          ShortWeather(
-                            weatherState: snapshot.data!.weatherStateName,
-                            minTemp: snapshot.data!.minTemp,
-                            maxTemp: snapshot.data!.maxTemp,
-                          ),
-                        ],
+                  return Theme(
+                    data: Theme.of(context).copyWith(),
+                    child: Container(
+                      height: 40,
+                      decoration: BoxDecoration(
+                          border: Border(
+                              bottom: BorderSide(
+                                  width: 2,
+                                  color: Theme.of(context).primaryColorDark))),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 25),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  DateFormat('d MMMM')
+                                      .format(today.add(Duration(
+                                          days: weekWeatherInfo
+                                              .indexOf(dayWeatherInfo))))
+                                      .toString(),
+                                  style: Theme.of(context).textTheme.bodyText1,
+                                ),
+                                Text(
+                                    today.day ==
+                                            today
+                                                .add(Duration(
+                                                    days:
+                                                        weekWeatherInfo.indexOf(
+                                                            dayWeatherInfo)))
+                                                .day
+                                        ? 'Today'
+                                        : DateFormat('EEEE')
+                                            .format(today.add(Duration(
+                                                days: weekWeatherInfo
+                                                    .indexOf(dayWeatherInfo))))
+                                            .toString(),
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.w400,
+                                    )),
+                              ],
+                            ),
+                            ShortWeather(
+                              weatherState: snapshot.data!.weatherStateName,
+                              minTemp: snapshot.data!.minTemp,
+                              maxTemp: snapshot.data!.maxTemp,
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   );
