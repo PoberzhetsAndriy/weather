@@ -17,8 +17,16 @@ class _SavedScreenState extends State<SavedScreen> {
   List<Future<WeatherInfo>> savedTownsWeather = [];
   //List<int> savedTownsWoeids = [];
 
-  Future<void> addNewTownWoeid(int woeid) async {
-    var woeids = await Hive.openBox<int>('woeids');
+  void deleteTown(int index) {
+    var woeids = Hive.box<int>('woeids');
+    setState(() {
+      savedTownsWeather.removeAt(index);
+      woeids.deleteAt(index);
+    });
+  }
+
+  void addNewTownWoeid(int woeid) {
+    var woeids = Hive.box<int>('woeids');
     setState(() {
       if (woeids.values.contains(woeid) == false) {
         woeids.add(woeid);
@@ -26,19 +34,17 @@ class _SavedScreenState extends State<SavedScreen> {
         savedTownsWeather.add(fetchWeatherInfo(0, woeid));
       }
     });
-    woeids.close();
   }
 
-  Future<void> addTownsWeather() async {
+  void addTownsWeather() {
     print('start');
-    var woeids = await Hive.openBox<int>('woeids');
+    var woeids = Hive.box<int>('woeids');
     print(woeids.values);
-    woeids.values.toList().map((woeid) {
+    for (int i = 0; i < woeids.values.length; i++) {
       setState(() {
-        savedTownsWeather.add(fetchWeatherInfo(0, woeid));
+        savedTownsWeather.add(fetchWeatherInfo(0, woeids.getAt(i)));
       });
-    });
-    woeids.close();
+    }
   }
 
   @override
@@ -70,7 +76,11 @@ class _SavedScreenState extends State<SavedScreen> {
       body: ListView.builder(
           itemCount: savedTownsWeather.length,
           itemBuilder: (ctx, index) {
-            return SizedBox(
+            return Dismissible(
+              key: UniqueKey(),
+              onDismissed: (direction) {
+                deleteTown(index);
+              },
               child: FutureBuilder<WeatherInfo>(
                 future: savedTownsWeather[index],
                 builder: (context, snapshot) {

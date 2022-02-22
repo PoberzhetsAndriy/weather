@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-Future<WeatherInfo> fetchWeatherInfo(int day, int woeid) async {
+Future<WeatherInfo> fetchWeatherInfo(int day, int? woeid) async {
   final response = await http
       .get(Uri.parse('https://www.metaweather.com/api/location/$woeid/'));
 

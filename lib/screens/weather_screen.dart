@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 import 'package:weather/models/fetch_weather_info.dart';
 import 'package:weather/screens/saved_screen.dart';
 import 'package:weather/screens/settings_screen.dart';
@@ -27,10 +28,11 @@ class _WeatherScreenState extends State<WeatherScreen> {
 
   void fetchWeekWeatherInfo() {
     setState(() {
+      Box woids = Hive.box('woids');
       weekWeatherInfo.clear();
       if (mainTownWoeid != null) {
         for (int i = 0; i < 6; i++) {
-          weekWeatherInfo.add(fetchWeatherInfo(i, mainTownWoeid!));
+          weekWeatherInfo.add(fetchWeatherInfo(i, woids.values.last));
         }
       }
     });
