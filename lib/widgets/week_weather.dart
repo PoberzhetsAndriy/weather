@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:weather/models/fetch_weather_info.dart';
 import 'package:weather/widgets/short_weather.dart';
 import 'package:weather/widgets/weather_icon.dart';
+import 'package:weather/widgets/week_weather_row.dart';
 
 class WeekWeather extends StatelessWidget {
   final List<Future<WeatherInfo>> weekWeatherInfo;
@@ -15,73 +16,57 @@ class WeekWeather extends StatelessWidget {
       height: 240,
       width: double.infinity,
       child: Column(
-        children: weekWeatherInfo.map(
-          (dayWeatherInfo) {
-            return FutureBuilder<WeatherInfo>(
-              future: dayWeatherInfo,
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  return Theme(
-                    data: Theme.of(context).copyWith(),
-                    child: Container(
-                      height: 40,
-                      decoration: BoxDecoration(
-                          border: Border(
-                              bottom: BorderSide(
-                                  width: 2,
-                                  color: Theme.of(context).primaryColorDark))),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 25),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  DateFormat('d MMMM')
-                                      .format(today.add(Duration(
-                                          days: weekWeatherInfo
-                                              .indexOf(dayWeatherInfo))))
-                                      .toString(),
-                                  style: Theme.of(context).textTheme.bodyText1,
-                                ),
-                                Text(
-                                    today.day ==
-                                            today
-                                                .add(Duration(
-                                                    days:
-                                                        weekWeatherInfo.indexOf(
-                                                            dayWeatherInfo)))
-                                                .day
-                                        ? 'Today'
-                                        : DateFormat('EEEE')
-                                            .format(today.add(Duration(
-                                                days: weekWeatherInfo
-                                                    .indexOf(dayWeatherInfo))))
-                                            .toString(),
-                                    style: const TextStyle(
-                                      fontWeight: FontWeight.w400,
-                                    )),
-                              ],
-                            ),
-                            ShortWeather(
-                              weatherState: snapshot.data!.weatherStateName,
-                              minTemp: snapshot.data!.minTemp,
-                              maxTemp: snapshot.data!.maxTemp,
-                            ),
-                          ],
+        children: weekWeatherInfo.map((dayWeatherInfo) {
+          return FutureBuilder<WeatherInfo>(
+            future: dayWeatherInfo,
+            builder: (context, snapshot) {
+              if (snapshot.hasError) {
+                return Text('${snapshot.error}');
+              } else if (snapshot.hasData) {
+                return WeakWeatherRow(
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          DateFormat('d MMMM')
+                              .format(today.add(Duration(
+                                  days:
+                                      weekWeatherInfo.indexOf(dayWeatherInfo))))
+                              .toString(),
+                          style: Theme.of(context).textTheme.bodyText1,
                         ),
-                      ),
+                        Text(
+                            today.day ==
+                                    today
+                                        .add(Duration(
+                                            days: weekWeatherInfo
+                                                .indexOf(dayWeatherInfo)))
+                                        .day
+                                ? 'Today'
+                                : DateFormat('EEEE')
+                                    .format(today.add(Duration(
+                                        days: weekWeatherInfo
+                                            .indexOf(dayWeatherInfo))))
+                                    .toString(),
+                            style: const TextStyle(
+                              fontWeight: FontWeight.w400,
+                            )),
+                      ],
                     ),
-                  );
-                }
-                return const Center(child: CircularProgressIndicator());
-              },
-            );
-          },
-        ).toList(),
+                    ShortWeather(
+                      weatherState: snapshot.data!.weatherStateName,
+                      minTemp: snapshot.data!.minTemp,
+                      maxTemp: snapshot.data!.maxTemp,
+                    ),
+                  ],
+                );
+              }
+              return const WeakWeatherRow();
+            },
+          );
+        }).toList(),
       ),
     );
   }

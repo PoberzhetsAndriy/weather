@@ -4,9 +4,14 @@ import 'package:flutter/services.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hive/hive.dart';
 
+import 'models/town.dart';
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
+  Hive.registerAdapter(TownAdapter());
+  await Hive.openBox<Town>('mainTown');
+  await Hive.openBox<Town>('towns');
   //await Hive.openBox<Town>('towns');
 
   runApp(const WeatherApp());

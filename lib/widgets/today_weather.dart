@@ -13,7 +13,9 @@ class TodayWeather extends StatelessWidget {
     return FutureBuilder<WeatherInfo>(
         future: todayWeatherInfo,
         builder: (context, snapshot) {
-          if (snapshot.hasData) {
+          if (snapshot.hasError) {
+            return Text('${snapshot.error}');
+          } else if (snapshot.hasData) {
             return Column(
               children: [
                 WeatherState(snapshot.data!.weatherStateName),
@@ -92,7 +94,7 @@ class TodayWeather extends StatelessWidget {
               ],
             );
           }
-          return const Center(child: CircularProgressIndicator());
+          return const SizedBox(height: 479.1,);
         });
   }
 }

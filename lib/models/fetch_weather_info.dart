@@ -37,7 +37,7 @@ class WeatherInfo {
     required this.airPressure,
     required this.visibility,
   });
-
+  
   factory WeatherInfo.fromJson(Map<String, dynamic> json, int day) {
     return WeatherInfo(
         weatherStateName: json["consolidated_weather"][day]

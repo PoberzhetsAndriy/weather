@@ -6,6 +6,8 @@ import 'package:weather/screens/settings_screen.dart';
 import 'package:weather/widgets/today_weather.dart';
 import 'package:weather/widgets/week_weather.dart';
 
+import '../models/town.dart';
+
 class WeatherScreen extends StatefulWidget {
   const WeatherScreen({Key? key}) : super(key: key);
 
@@ -14,25 +16,25 @@ class WeatherScreen extends StatefulWidget {
 }
 
 class _WeatherScreenState extends State<WeatherScreen> {
-  DateTime today = DateTime.now();
 
-  String mainTown = '';
-  int? mainTownWoeid;
+  DateTime today = DateTime.now();
+  var mainTown = Hive.box<Town>('mainTown');
   List<Future<WeatherInfo>> weekWeatherInfo = [];
-  void setMainTown(townTitle, woeid) {
-    setState(() {
-      mainTown = townTitle;
-      mainTownWoeid = woeid;
-    });
+  void setMainTown(Town town) {
+    
+      
+      setState(() {
+        mainTown.put(0, town);
+      });
+    
   }
 
   void fetchWeekWeatherInfo() {
     setState(() {
-      Box woids = Hive.box('woids');
       weekWeatherInfo.clear();
-      if (mainTownWoeid != null) {
+      if (mainTown.isNotEmpty) {
         for (int i = 0; i < 6; i++) {
-          weekWeatherInfo.add(fetchWeatherInfo(i, woids.values.last));
+          weekWeatherInfo.add(fetchWeatherInfo(i, mainTown.get(0)!.woeid));
         }
       }
     });
@@ -68,11 +70,13 @@ class _WeatherScreenState extends State<WeatherScreen> {
         ),
         backgroundColor: Colors.transparent,
         shape: const Border(),
-        title: Text(mainTown,
-            style: const TextStyle(
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-            )),
+        title: mainTown.isNotEmpty
+            ? Text(mainTown.get(0)!.title,
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ))
+            : const SizedBox(),
       ),
       body: Container(
         decoration: const BoxDecoration(
@@ -87,7 +91,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
           padding: const EdgeInsets.only(
             top: 20,
           ),
-          child: mainTownWoeid != null
+          child: mainTown.isNotEmpty
               ? Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -102,7 +106,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
                     child: SizedBox(
                         height: 300,
                         child: Center(
-                            child: Text('No towns added yet',
+                            child: Text('No towns chosen yet',
                                 style: TextStyle(
                                     fontSize: 30, color: Colors.white)))),
                   )),

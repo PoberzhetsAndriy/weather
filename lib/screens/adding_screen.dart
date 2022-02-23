@@ -3,6 +3,7 @@ import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
 import 'package:hive/hive.dart';
+import 'package:weather/models/town.dart';
 
 
 
@@ -80,7 +81,7 @@ class _AddingScreenState extends State<AddingScreen> {
                   itemBuilder: (ctx, index) {
                     return GestureDetector(
                       onTap: () {
-                        widget.addNewTown(snapshot.data![index]['woeid']);
+                        widget.addNewTown(Town(snapshot.data![index]['title'],snapshot.data![index]['woeid']));
                         Navigator.of(context).pop();
                       },
                       child: Container(
