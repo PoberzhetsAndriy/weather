@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:weather/models/fetch_weather_info.dart';
 import 'package:weather/widgets/short_weather.dart';
-import 'package:weather/widgets/weather_icon.dart';
 import 'package:weather/widgets/week_weather_row.dart';
 
 class WeekWeather extends StatelessWidget {

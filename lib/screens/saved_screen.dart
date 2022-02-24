@@ -5,7 +5,7 @@ import 'package:weather/screens/adding_screen.dart';
 import 'package:weather/widgets/short_weather.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-
+import 'package:location/location.dart';
 import '../models/town.dart';
 import '../widgets/saved_row.dart';
 
@@ -21,6 +21,36 @@ class _SavedScreenState extends State<SavedScreen> {
   String? latt;
   String? long;
   List<Future<WeatherInfo>> savedTownsWeather = [];
+
+  Future<LocationData?> getLocation() async {
+    Location location = Location();
+    LocationData _locationData;
+
+    bool _serviceEnabled;
+    PermissionStatus _permissionGranted;
+
+    _serviceEnabled = await location.serviceEnabled();
+    if (!_serviceEnabled) {
+      _serviceEnabled = await location.requestService();
+      if (!_serviceEnabled) {
+        return null;
+      }
+    }
+
+    _permissionGranted = await location.hasPermission();
+    if (_permissionGranted == PermissionStatus.denied) {
+      _permissionGranted = await location.requestPermission();
+      if (_permissionGranted != PermissionStatus.granted) {
+        return null;
+      }
+    }
+
+    _locationData = await location.getLocation();
+    setState(() {
+      latt = _locationData.latitude.toString();
+      long = _locationData.longitude.toString();
+    });
+  }
 
   void deleteTown(int index) {
     var towns = Hive.box<Town>('towns');
@@ -65,11 +95,14 @@ class _SavedScreenState extends State<SavedScreen> {
   void initState() {
     super.initState();
     //getCurrentLocation();
+    getLocation();
     addTownsWeather();
   }
 
   @override
   Widget build(BuildContext context) {
+    print(latt);
+    print(long);
     return Scaffold(
       appBar: AppBar(
         actions: [
