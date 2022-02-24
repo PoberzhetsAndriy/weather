@@ -18,13 +18,13 @@ class WeatherScreen extends StatefulWidget {
 class _WeatherScreenState extends State<WeatherScreen> {
 
   DateTime today = DateTime.now();
-  var mainTown = Hive.box<Town>('mainTown');
+  var mainTown = Hive.box<Town>('specialTowns');
   List<Future<WeatherInfo>> weekWeatherInfo = [];
   void setMainTown(Town town) {
     
       
       setState(() {
-        mainTown.put(0, town);
+        mainTown.put('mainTown', town);
       });
     
   }
@@ -34,7 +34,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
       weekWeatherInfo.clear();
       if (mainTown.isNotEmpty) {
         for (int i = 0; i < 6; i++) {
-          weekWeatherInfo.add(fetchWeatherInfo(i, mainTown.get(0)!.woeid));
+          weekWeatherInfo.add(fetchWeatherInfo(i, mainTown.get('mainTown')!.woeid));
         }
       }
     });
@@ -71,7 +71,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
         backgroundColor: Colors.transparent,
         shape: const Border(),
         title: mainTown.isNotEmpty
-            ? Text(mainTown.get(0)!.title,
+            ? Text(mainTown.get('mainTown')!.title,
                 style: const TextStyle(
                   fontWeight: FontWeight.bold,
                   color: Colors.white,

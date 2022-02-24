@@ -10,7 +10,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
   Hive.registerAdapter(TownAdapter());
-  await Hive.openBox<Town>('mainTown');
+  await Hive.openBox<Town>('specialTowns');
   await Hive.openBox<Town>('towns');
   //await Hive.openBox<Town>('towns');
 

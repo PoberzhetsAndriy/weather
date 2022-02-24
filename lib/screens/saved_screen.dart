@@ -1,5 +1,6 @@
+import 'dart:convert';
+import 'package:http/http.dart' as http1;
 import 'package:flutter/material.dart';
-//import 'package:geolocator/geolocator.dart';
 import 'package:weather/models/fetch_weather_info.dart';
 import 'package:weather/screens/adding_screen.dart';
 import 'package:weather/widgets/short_weather.dart';
@@ -18,11 +19,27 @@ class SavedScreen extends StatefulWidget {
 }
 
 class _SavedScreenState extends State<SavedScreen> {
+  Town? curentLocation;
   String? latt;
   String? long;
   List<Future<WeatherInfo>> savedTownsWeather = [];
 
-  Future<LocationData?> getLocation() async {
+  get http => null;
+
+  void fetchLocationTown(String? latt, String? long) async {
+    final response = await http1.get(Uri.parse(
+        'https://www.metaweather.com/api/location/search/?lattlong=$latt,$long'));
+
+    if (response.statusCode == 200) {
+      setState(() {
+        curentLocation = Town.fromJson(jsonDecode(response.body));
+      });
+    } else {
+      throw Exception('Failed to load town');
+    }
+  }
+
+  void getLocation() async {
     Location location = Location();
     LocationData _locationData;
 
@@ -46,10 +63,12 @@ class _SavedScreenState extends State<SavedScreen> {
     }
 
     _locationData = await location.getLocation();
+
     setState(() {
       latt = _locationData.latitude.toString();
       long = _locationData.longitude.toString();
     });
+    fetchLocationTown(latt, long);
   }
 
   void deleteTown(int index) {
@@ -65,7 +84,6 @@ class _SavedScreenState extends State<SavedScreen> {
     setState(() {
       if (towns.values.contains(town) == false) {
         towns.add(town);
-        //savedTownsWoeids.add(woeid);
         savedTownsWeather.add(fetchWeatherInfo(0, town.woeid));
       }
     });
@@ -81,28 +99,15 @@ class _SavedScreenState extends State<SavedScreen> {
     }
   }
 
-//  void getCurrentLocation() async {
-//    final geolocation = await Geolocator()
-//        .getCurrentPosition(desiredAccuracy: LocationAccuracy.lowest);
-//    setState(() {
-//      latt = '${geolocation.latitude}';
-//      long = '${geolocation.longitude}';
-//    });
-//    print(latt);
-//  }
-
   @override
   void initState() {
     super.initState();
-    //getCurrentLocation();
     getLocation();
     addTownsWeather();
   }
 
   @override
   Widget build(BuildContext context) {
-    print(latt);
-    print(long);
     return Scaffold(
       appBar: AppBar(
         actions: [
@@ -124,18 +129,24 @@ class _SavedScreenState extends State<SavedScreen> {
           itemCount: savedTownsWeather.length + 1,
           itemBuilder: (ctx, index) {
             if (index == savedTownsWeather.length) {
-              return TextButton(
-                onPressed: () {},
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: Row(
-                    children: const [
-                      Text('Add you current location'),
-                      Icon(Icons.location_pin)
-                    ],
+              if (curentLocation != null) {
+                return TextButton(
+                  onPressed: () {
+                    addNewTown(curentLocation!);
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: Row(
+                      children: const [
+                        Text('Add you current location'),
+                        Icon(Icons.location_pin)
+                      ],
+                    ),
                   ),
-                ),
-              );
+                );
+              } else {
+                return const SizedBox.shrink();
+              }
             } else {
               return Dismissible(
                 key: UniqueKey(),

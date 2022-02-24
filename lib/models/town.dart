@@ -9,7 +9,7 @@ class Town extends HiveObject {
   late String title;
   Town(this.title, this.woeid);
 
-  factory Town.fromJson(Map<String, dynamic> json, int day) {
+  factory Town.fromJson(List<dynamic> json) {
     return Town(
       json[0]['title'],
       json[0]['woeid'],
