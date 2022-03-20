@@ -84,14 +84,22 @@ flutter:
     - assets/images/Humidity.png
     - assets/images/Visibility.png
     - assets/images/Preasure.png
+    - assets/images/ENE.png
+    - assets/images/ESE.png
     - assets/images/N.png
+    - assets/images/NE.png
+    - assets/images/NNE.png
+    - assets/images/NNW.png
     - assets/images/E.png
     - assets/images/W.png
+    - assets/images/WNW.png
+    - assets/images/WSW.png
+    - assets/images/SW.png
+    - assets/images/SSW.png
     - assets/images/S.png
-    - assets/images/NE.png
+    - assets/images/SE.png
+    - assets/images/SSE.png
     - assets/images/NW.png
-    - assets/images/WS.png
-    - assets/images/ES.png
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

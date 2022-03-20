@@ -14,6 +14,7 @@ class WeatherIcon extends StatelessWidget {
       'Showers': WeatherIcons.showers,
       'Snow': WeatherIcons.snow,
       'Thunder': WeatherIcons.thunder,
+      'Sleet':WeatherIcons.sleet,
   };
 
   @override

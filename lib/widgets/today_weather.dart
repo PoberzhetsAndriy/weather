@@ -51,7 +51,7 @@ class TodayWeather extends StatelessWidget {
                       children: [
                         Row(
                           children: [
-                            const InfoImage('N'),
+                            InfoImage(snapshot.data!.windDirectionCompass),
                             Text(
                                 '${snapshot.data!.windSpeed.toStringAsFixed(1)} mph'),
                           ],
